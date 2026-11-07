@@ -1,4 +1,5 @@
 # vengeancet rat
+<img src="./assets/icon.png" alt="<vengeancet rat logo>">
 Cross-platform Remote Access Trojan (RAT) with Telegram-based C2 and persistence mechanisms
 
 ## features

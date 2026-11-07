@@ -1,4 +1,5 @@
 pyvenv.cfg
+credentials.json
 .env
 .env_plain_txt
 CACHEDIR.TAG
